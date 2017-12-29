@@ -1,6 +1,6 @@
-document.getElementById("canvas").addEventListener("click", function (e) {
-  var x = e.clientX + e.offsetX;
-  var y = e.clientY + e.offsetY;
+canvas.addEventListener("click", function (e) {
+  var x = e.clientX - canvas.offsetLeft;
+  var y = e.clientY - canvas.offsetTop;
 
   console.log('x: ' + x + ' y: ' + y);
   var modelCoordinates = viewToModel(x, y);
