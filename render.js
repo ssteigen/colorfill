@@ -1,13 +1,16 @@
 var W = 400;
-var H = 400;
+var H = 500;
 
-var BLOCK_H = H / ROWS;
+var INFO_H = 100;
+var INFO_W = 400
+
+var BLOCK_H = (H - INFO_H) / ROWS;
 var BLOCK_W = W / COLS;
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-var colors = ['LightSlateGray', 'LightSteelBlue', 'LightGray'];
+// var colors = ['LightSlateGray', 'LightSteelBlue', 'LightGray'];
 
 function modelToView(x, y) {
   return {
@@ -21,6 +24,26 @@ function viewToModel(x, y) {
     x: Math.floor(x / BLOCK_W),
     y: Math.floor(y / BLOCK_H)
   }
+}
+
+function renderInfo() {
+  var viewCoordinates = modelToView(COLS, ROWS);
+
+  ctx.fillStyle = "#eee";
+  ctx.strokeStyle = "#333";
+  ctx.fillRect(0, viewCoordinates.y, INFO_W, INFO_H);
+  ctx.strokeRect(0, viewCoordinates.y, INFO_W, INFO_H);
+
+  ctx.font = '20px Arial';
+  ctx.fillStyle = '#333';
+  var text = '# of Clicks: ' + turnCount;
+  var textSize = ctx.measureText(text);
+  var textSizeM = ctx.measureText('M');
+  ctx.fillText(
+    text,
+    0 + INFO_W / 2 - textSize.width / 2,
+    viewCoordinates.y + INFO_H / 2 + textSizeM.width / 2
+  );
 }
 
 function renderBlock(x, y) {
@@ -54,6 +77,8 @@ function render() {
       renderBlock(x, y);
     }
   }
+
+  renderInfo();
 }
 
 render();
